@@ -1,6 +1,5 @@
 html {
-  font-size: 21px;
-  font-family: 'Roboto Condensed';
+  font-family: "Roboto Condensed", sans-serif;
   font-style: normal;
   font-weight: 400;
   src: url(https://fonts.gstatic.com/s/robotocondensed/v25/ieVl2ZhZI2eCN5jzbjEETS9weq8-19K7DQk6YvM.woff2) format('woff2');
