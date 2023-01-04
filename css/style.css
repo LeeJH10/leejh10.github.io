@@ -1,12 +1,19 @@
 html {
-  border-radius: 25px;
   font-size: 21px;
-  font-family: placeholder;
+  font-family: 'Roboto Condensed';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/robotocondensed/v25/ieVl2ZhZI2eCN5jzbjEETS9weq8-19K7DQk6YvM.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  background-color: #FFFFFF;
 }
 
 h1 {
   font-size: 30px;
   text-align: center;
+  margin: 0;
+  padding: 20px 0;
+  color: #000000;
 }
 
 p, li {
@@ -15,23 +22,13 @@ p, li {
   letter-spacing: 1px;
 }
 
-
-html {
-  background-color: #FFFFFF;
-}
-
 body {
   width: 600px;
   margin: 0 auto;
   background-color: #FFFFFF;
   padding: 0 20px 20px 20px;
   border: 5px double black;
-}
-
-h1 {
-  margin: 0;
-  padding: 20px 0;
-  color: #000000;
+  border-radius: 25px;
 }
 
 img {
