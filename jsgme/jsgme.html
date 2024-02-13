@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/chroma.js"></script>
+<script type="text/javascript" src="visualizer.js"></script>
+
+<script type="text/javascript" src="libgme.js"></script>
+<script type="text/javascript" src="player.js"></script>
+<script type="text/javascript">
+<!--
+$(document).ready(function() {
+	$("#search").bind("keyup",function(){
+		$("#result").load("ajax.php?q="+encodeURIComponent($("#search").val()));
+	});
+	//load permalink
+	if($("#search").val()!=""){
+		$("#result").load("ajax.php?q="+encodeURIComponent($("#search").val()));
+		$("#permalink").html("<a href='?file=&track=0&q="+encodeURIComponent($("#search").val())+"'>permalink</a>");
+	}
+	var fileName = '';
+	var trackNo = '0';
+	if(fileName){
+		play(fileName,trackNo);
+	}
+	$("#search").focus();
+	//iOS Workaround
+	document.addEventListener('touchstart', function(){
+		console.log("touchstart");
+		if(!ctx)ctx = new webkitAudioContext();
+		var tmp = ctx.createBufferSource();
+	  	tmp.noteOn(0);
+	}, false);
+
+});
+-->
+</script>
+<title>[Demo] JavaScript NSF/GBS/SPC Player</title>
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+<div class="container">
+
+	<h2>[Demo] JavaScript NSF/GBS/SPC Player</h2>
+	<div>
+		<span id="fps" style="float:right">FPS</span>
+		<li>100% JavaScript. using <a href="https://code.google.com/p/game-music-emu/">Game_Music_Emu</a> compiled by <a href="https://github.com/kripken/emscripten">Emscripten</a> and <a href="http://www.w3.org/TR/webaudio/">Web Audio API</a>.
+		<li>Works on Google Chrome/Chrome for Android/Safari/Mobile Safari(iOS 6).
+		<li>NFS tracks from <a href="http://midr2.under.jp/">Famicompo mini</a>
+		<li>player.js from <a href="http://debian.as/~nano/gme/">http://debian.as/~nano/gme/</a></li>
+		<li>You can drop sound file(.nsf .gbs .spc) to this window for playing!
+	</div>
+		
+	<div class="row">
+		<div class="span12">
+			<canvas id="canvasTimeDomain" width="1024" height="32"></canvas><br/>
+			<canvas id="canvasFrequency" width="1024" height="64"></canvas><br/>
+			<canvas id="canvasSpectrogram" width="1024" height="256"></canvas>
+		</div>
+	</div>
+		
+	<div class="row">
+
+		<div class="span12">
+			<button class="btn btn-success" id="btnWA">① Enable WebAudio API</button> <-Press this button first (<a href="https://developers.google.com/web/updates/2017/09/autoplay-policy-changes#webaudio" target="_blank">to enable WebAudio API</a>)
+
+			<h4>Track Info
+				<button onclick="stop();" class="btn">Stop playing</button>
+				<span id="permalink" class="pull-right"></span>
+			</h4>
+			<div id="song_info">Please Search Tracks to Play!<br>&nbsp;<br>&nbsp;</div>
+		</div>
+			
+		<div class="span8">
+			<h4>Audio Effects</h4>
+			Voices
+			<div class="btn-group">
+				<input type="checkbox" id="ch1" onclick="setChannels();" checked>
+				<input type="checkbox" id="ch2" onclick="setChannels();" checked>
+				<input type="checkbox" id="ch3" onclick="setChannels();" checked>
+				<input type="checkbox" id="ch4" onclick="setChannels();" checked>
+				<input type="checkbox" id="ch5" onclick="setChannels();" checked>
+				<input type="checkbox" id="ch6" onclick="setChannels();" checked>
+				<input type="checkbox" id="ch7" onclick="setChannels();" checked>
+				<input type="checkbox" id="ch8" onclick="setChannels();" checked>
+			</div>
+
+			<table>
+				<tr>
+					<td>Filter : </td>
+					<td colspan="2">
+						<label><input type="radio" name="filterType" onclick="filterSetup()" value="0">LowPass</label>
+						<label><input type="radio" name="filterType" onclick="filterSetup()" value="1">HighPass</label>
+						<label><input type="radio" name="filterType" onclick="filterSetup()" value="2">BandPass</label>
+						<label><input type="radio" name="filterType" onclick="filterSetup()" value="3">LowShelf</label>
+						<label><input type="radio" name="filterType" onclick="filterSetup()" value="4">HighShelf</label>
+						<label><input type="radio" name="filterType" onclick="filterSetup()" value="5">Peaking</label>
+						<label><input type="radio" name="filterType" onclick="filterSetup()" value="6">Notch</label>
+						<label><input type="radio" name="filterType" onclick="filterSetup()" value="7" checked>AllPass</label>
+					</td>
+				</tr>
+				<tr>
+					<td>Freq : </td>
+					<td><input type="range" min="100" max="20000" id="freq" size="10" onchange="filterSetup()" oninput="filterSetup()" value="5000" class="wideslider" /></td><td><div id="freqlabel">5000Hz</td>
+				</tr>
+				<tr>
+					<td>Q : </td><td><input type="range" min="0" max="50" step="0.1" id="q" size="10" onchange="filterSetup()" oninput="filterSetup()" value="5" /></td><td><div id="qlabel">5</td>
+				</tr>
+				<tr>
+					<td>Gain : </td><td><input type="range" min="-50" max="50" id="gain" size="10" onchange="filterSetup()" oninput="filterSetup()" value="0"  disabled/></td><td><div id="gainlabel">0</td>
+				</tr>
+			</table>
+
+			<h4>Console</h4>
+			<p>
+				<div id="message" class="console"></div>
+			</p>
+		</div>
+
+		<div class="span4">
+			<form>
+				<h4>Search Famicompo mini Tracks</h4>
+				<div class="">
+				<input type="text" class=" search-query" id="search" value="" placeholder="track name">
+				<input class="btn btn-success" style="font-size:small" type="button" onclick="random();" value="② Play random tracks">
+				</div>
+			</form>
+			
+			<div id="result"></div>
+		</div>
+	</div>
+	<h4>todo:</h4>
+	<ul>
+		<li>fix garbling</li>
+		<li>remove noise</li>
+		<li>volume</li>
+		<li>beat detection</li>
+		<li>refactoring</li>
+		<li>speed up</li>
+		<li>scratching</li>
+		<li>2d filter</li>
+		<li>pitch shift</li>
+		<li>web gl</li>
+		<li>glsl</li>
+		<li>zoom slider</li>
+		<li>drag & drop support</li>
+	</ul>
+
+	<h4>done:</h4>
+	<ul>
+		<li>drag & drop api
+		<li>file search
+		<li>channel mute</li>
+		<li>combined with gme</li>
+		<li>display position/duration</li>
+		<li>bootstrap</li>
+		<li>add filter</li>
+		<li>add spectrogram viewer</li>
+		<li>add frequency viewer</li>
+		<li>add realtime waveform viewer</li>
+	</ul>
+
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-389612-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+
+  })();
+
+</script>
+</body>
+</html>
