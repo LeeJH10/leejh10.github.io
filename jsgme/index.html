@@ -1,7 +1,9 @@
+<!DOCTYPE html>
+<html>
 <head>
-<script type="text/javascript" async="" src="http://www.google-analytics.com/ga.js"></script><script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-<script type="text/javascript" src="bootstrap.min.js"></script>
-<script type="text/javascript" src="chroma.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/chroma.js"></script>
 <script type="text/javascript" src="visualizer.js"></script>
 
 <script type="text/javascript" src="libgme.js"></script>
@@ -34,27 +36,27 @@ $(document).ready(function() {
 });
 -->
 </script>
-<title>sorry i stole</title>
-<link href="bootstrap.min.css" rel="stylesheet" media="screen">
+<title>nsf player</title>
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
 <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 <div class="container">
 
-	<h2>[Demo] JavaScript NSF/GBS/SPC Player</h2>
+	<h2>sorry i stole</h2>
 	<div>
-		<span id="fps" style="float:right">63FPS</span>
+		<span id="fps" style="float:right">FPS</span>
 		<li>100% JavaScript. using <a href="https://code.google.com/p/game-music-emu/">Game_Music_Emu</a> compiled by <a href="https://github.com/kripken/emscripten">Emscripten</a> and <a href="http://www.w3.org/TR/webaudio/">Web Audio API</a>.
-		</li><li>Works on Google Chrome/Chrome for Android/Safari/Mobile Safari(iOS 6).
-		</li><li>added more checkboxes idk</a>
-		</li><li>player.js from <a href="http://debian.as/~nano/gme/">http://debian.as/~nano/gme/</a></li>
+		<li>Works on Google Chrome/Chrome for Android/Safari/Mobile Safari(iOS 6).
+		<li>more checkboxes or smth idk</a>
+		<li>player.js from <a href="http://debian.as/~nano/gme/">http://debian.as/~nano/gme/</a></li>
 		<li>You can drop sound file(.nsf .gbs .spc) to this window for playing!
-	</li></div>
+	</div>
 		
 	<div class="row">
 		<div class="span12">
-			<canvas id="canvasTimeDomain" width="1024" height="32"></canvas><br>
-			<canvas id="canvasFrequency" width="1024" height="64"></canvas><br>
+			<canvas id="canvasTimeDomain" width="1024" height="64"></canvas><br/>
+			<canvas id="canvasFrequency" width="1024" height="64"></canvas><br/>
 			<canvas id="canvasSpectrogram" width="1024" height="256"></canvas>
 		</div>
 	</div>
@@ -62,35 +64,36 @@ $(document).ready(function() {
 	<div class="row">
 
 		<div class="span12">
-			<button class="btn btn-success" id="btnWA" disabled="disabled">① Enable WebAudio API</button> &lt;-Press this button first (<a href="https://developers.google.com/web/updates/2017/09/autoplay-policy-changes#webaudio" target="_blank">to enable WebAudio API</a>)
+			<button class="btn btn-success" id="btnWA">① Enable WebAudio API</button> <-Press this button first (<a href="https://developers.google.com/web/updates/2017/09/autoplay-policy-changes#webaudio" target="_blank">to enable WebAudio API</a>)
 
 			<h4>Track Info
 				<button onclick="stop();" class="btn">Stop playing</button>
 				<span id="permalink" class="pull-right"></span>
 			</h4>
-			<div id="song_info">FileName: BotB 54210 A64 - Dimensional [Warp Star].nsf<br>Abstract 64 - Dimensional Warp Star, Track 1 of 1<br><a href="#" onclick="return playDropped('BotB 54210 A64 - Dimensional [Warp Star].nsf',0)">1</a>&nbsp;</div>
+			<div id="song_info">Please Search Tracks to Play!<br>&nbsp;<br>&nbsp;</div>
 		</div>
 			
 		<div class="span8">
 			<h4>Audio Effects</h4>
 			Voices
 			<div class="btn-group">
-				<input type="checkbox" id="ch1" onclick="setChannels();" checked="">
-				<input type="checkbox" id="ch2" onclick="setChannels();" checked="">
-				<input type="checkbox" id="ch3" onclick="setChannels();" checked="">
-				<input type="checkbox" id="ch4" onclick="setChannels();" checked="">
-				<input type="checkbox" id="ch5" onclick="setChannels();" checked="">
-				<input type="checkbox" id="ch6" onclick="setChannels();" checked="">
-				<input type="checkbox" id="ch7" onclick="setChannels();" checked="">
-				<input type="checkbox" id="ch8" onclick="setChannels();" checked="">
-        <input type="checkbox" id="ch9" onclick="setChannels();" checked="">
-				<input type="checkbox" id="ch11" onclick="setChannels();" checked="">
-				<input type="checkbox" id="ch12" onclick="setChannels();" checked="">
-				<input type="checkbox" id="ch13" onclick="setChannels();" checked="">
+				<input type="checkbox" id="ch1" onclick="setChannels();" checked>
+				<input type="checkbox" id="ch2" onclick="setChannels();" checked>
+				<input type="checkbox" id="ch3" onclick="setChannels();" checked>
+				<input type="checkbox" id="ch4" onclick="setChannels();" checked>
+				<input type="checkbox" id="ch5" onclick="setChannels();" checked>
+				<input type="checkbox" id="ch6" onclick="setChannels();" checked>
+				<input type="checkbox" id="ch7" onclick="setChannels();" checked>
+				<input type="checkbox" id="ch8" onclick="setChannels();" checked>
+				<input type="checkbox" id="ch9" onclick="setChannels();" checked>
+				<input type="checkbox" id="ch10" onclick="setChannels();" checked>
+				<input type="checkbox" id="ch11" onclick="setChannels();" checked>
+				<input type="checkbox" id="ch12" onclick="setChannels();" checked>
+				<input type="checkbox" id="ch13" onclick="setChannels();" checked>
 			</div>
 
 			<table>
-				<tbody><tr>
+				<tr>
 					<td>Filter : </td>
 					<td colspan="2">
 						<label><input type="radio" name="filterType" onclick="filterSetup()" value="0">LowPass</label>
@@ -100,25 +103,25 @@ $(document).ready(function() {
 						<label><input type="radio" name="filterType" onclick="filterSetup()" value="4">HighShelf</label>
 						<label><input type="radio" name="filterType" onclick="filterSetup()" value="5">Peaking</label>
 						<label><input type="radio" name="filterType" onclick="filterSetup()" value="6">Notch</label>
-						<label><input type="radio" name="filterType" onclick="filterSetup()" value="7" checked="">AllPass</label>
+						<label><input type="radio" name="filterType" onclick="filterSetup()" value="7" checked>AllPass</label>
 					</td>
 				</tr>
 				<tr>
 					<td>Freq : </td>
-					<td><input type="range" min="100" max="20000" id="freq" size="10" onchange="filterSetup()" oninput="filterSetup()" value="5000" class="wideslider"></td><td><div id="freqlabel">5000Hz</div></td>
+					<td><input type="range" min="100" max="20000" id="freq" size="10" onchange="filterSetup()" oninput="filterSetup()" value="5000" class="wideslider" /></td><td><div id="freqlabel">5000Hz</td>
 				</tr>
 				<tr>
-					<td>Q : </td><td><input type="range" min="0" max="50" step="0.1" id="q" size="10" onchange="filterSetup()" oninput="filterSetup()" value="5"></td><td><div id="qlabel">5</div></td>
+					<td>Q : </td><td><input type="range" min="0" max="50" step="0.1" id="q" size="10" onchange="filterSetup()" oninput="filterSetup()" value="5" /></td><td><div id="qlabel">5</td>
 				</tr>
 				<tr>
-					<td>Gain : </td><td><input type="range" min="-50" max="50" id="gain" size="10" onchange="filterSetup()" oninput="filterSetup()" value="0" disabled=""></td><td><div id="gainlabel">0</div></td>
+					<td>Gain : </td><td><input type="range" min="-50" max="50" id="gain" size="10" onchange="filterSetup()" oninput="filterSetup()" value="0"  disabled/></td><td><div id="gainlabel">0</td>
 				</tr>
-			</tbody></table>
+			</table>
 
 			<h4>Console</h4>
 			<p>
-				</p><div id="message" class="console">2024. 2. 13. 오후 9:15:39.881 could not stop track<br>2024. 2. 13. 오후 9:15:09.487 Track count: <br>2024. 2. 13. 오후 9:15:09.487 Channel count: <br>2024. 2. 13. 오후 9:15:09.483 subtune:0<br>2024. 2. 13. 오후 9:15:09.483 file loaded.<br>2024. 2. 13. 오후 9:15:09.474 file dropped<br>2024. 2. 13. 오후 9:15:09.473 dropped file : BotB 54210 A64 - Dimensional [Warp Star].nsf ()<br>2024. 2. 13. 오후 9:14:24.233 Track count: <br>2024. 2. 13. 오후 9:14:24.233 Channel count: <br>2024. 2. 13. 오후 9:14:24.229 subtune:0<br>2024. 2. 13. 오후 9:14:24.228 file loaded.<br>2024. 2. 13. 오후 9:14:24.215 file dropped<br>2024. 2. 13. 오후 9:14:24.214 dropped file : BotB 54210 A64 - Dimensional [Warp Star].nsf ()<br>2024. 2. 13. 오후 9:13:23.755 Track count: <br>2024. 2. 13. 오후 9:13:23.755 Channel count: <br>2024. 2. 13. 오후 9:13:23.735 subtune:0<br>2024. 2. 13. 오후 9:13:23.734 file loaded.<br>2024. 2. 13. 오후 9:13:23.724 file dropped<br>2024. 2. 13. 오후 9:13:23.723 dropped file : BotB 54210 A64 - Dimensional [Warp Star].nsf ()<br>2024. 2. 13. 오후 9:13:21.029 [initialized.]<br>2024. 2. 13. 오후 9:13:21.029 canvas setup<br>2024. 2. 13. 오후 9:13:21.028 set analyserNode.smoothingTimeConstant to 0.<br>2024. 2. 13. 오후 9:13:21.028 initial analyserNode.minDecibels / maxDecibels: -100 / -30<br>2024. 2. 13. 오후 9:13:21.028 initial analyserNode.smoothingTimeConstant: 0.8<br>2024. 2. 13. 오후 9:13:21.027 analyserNode.frequencyBinCount: 1024<br>2024. 2. 13. 오후 9:13:21.027 analyserNode.fftSize: 2048<br>2024. 2. 13. 오후 9:13:21.026 initializing...<br></div>
-			<p></p>
+				<div id="message" class="console"></div>
+			</p>
 		</div>
 
 		<div class="span4">
@@ -147,14 +150,14 @@ $(document).ready(function() {
 		<li>web gl</li>
 		<li>glsl</li>
 		<li>zoom slider</li>
-		<li>drag &amp; drop support</li>
+		<li>drag & drop support</li>
 	</ul>
 
 	<h4>done:</h4>
 	<ul>
-		<li>drag &amp; drop api
-		</li><li>file search
-		</li><li>channel mute</li>
+		<li>drag & drop api
+		<li>file search
+		<li>channel mute</li>
 		<li>combined with gme</li>
 		<li>display position/duration</li>
 		<li>bootstrap</li>
@@ -179,5 +182,5 @@ $(document).ready(function() {
   })();
 
 </script>
-
 </body>
+</html>
